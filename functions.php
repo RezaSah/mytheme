@@ -7,10 +7,10 @@ load_theme_textdomain("Alpha");
 add_theme_support("post_thumbnails");
 add_theme_support("title_tag");
 
-register_nav_menu("top-menu",__("Top Menu","Alpha"));
-register_nav_menu("footer-menu",__("Footer Menu","Alpha"));
+register_nav_menu("topmenu",__("Top Menu","Alpha"));
+register_nav_menu("footermenu",__("Footer Menu","Alpha"));
 }
- add_action("after_setup-theme","Alpha_bootstrapping");
+ add_action("after_setup_theme","Alpha_bootstrapping");
 
 function Alpha_assets(){
 
@@ -18,6 +18,7 @@ function Alpha_assets(){
 	wp_enqueue_style("bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 	wp_enqueue_style("featherlight-css", "//cdn.rawgit.com/noelboss/featherlight/1.7.14/release/featherlight.min.css");
 	wp_enqueue_script("featherlight-js", "//cdn.rawgit.com/noelboss/featherlight/1.7.14/release/featherlight.min.js", array("jquery"), "0.0.1", true);
+	wp_enqueue_script("alpha-main",get_theme_file_uri("/assets/js/main.js"),array("jquery","featherlight-js"),"0.0.1",true);
 }
 add_action("wp_enqueue_scripts","Alpha_assets");
 
@@ -67,3 +68,10 @@ function Alpha_protected_title_change() {
 return "%s";
 }
 add_filter("protected_title_format","Alpha_protected_title_change");
+
+function Alpha_menu_item_class( $classes , $item){
+	$classes[]= "list-inline-item";
+	return $classes;
+
+}
+add_filter("nav_menu_css_class", "Alpha_menu_item_class", 10 , 2 );
